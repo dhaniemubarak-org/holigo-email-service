@@ -1,7 +1,7 @@
 package id.holigo.services.holigoemailservice.web.controllers;
 
 import id.holigo.services.holigoemailservice.services.EmailService;
-import id.holigo.services.holigoemailservice.web.model.EmailDto;
+import id.holigo.services.common.EmailDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

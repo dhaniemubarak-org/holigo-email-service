@@ -1,4 +1,4 @@
-package id.holigo.services.holigoemailservice.web.model;
+package id.holigo.services.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
