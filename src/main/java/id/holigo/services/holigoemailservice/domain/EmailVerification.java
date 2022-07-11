@@ -1,6 +1,7 @@
 package id.holigo.services.holigoemailservice.domain;
 
 import id.holigo.services.common.EmailStatusEnum;
+import id.holigo.services.common.EmailTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -22,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EmailConfirmation {
+public class EmailVerification {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -35,6 +33,10 @@ public class EmailConfirmation {
 
     private Timestamp expiredAt;
 
+    @Enumerated(EnumType.STRING)
+    private EmailTypeEnum type;
+
+    @Enumerated(EnumType.STRING)
     private EmailStatusEnum status;
 
     private String indexNote;
