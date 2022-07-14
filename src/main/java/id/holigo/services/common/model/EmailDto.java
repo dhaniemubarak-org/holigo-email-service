@@ -1,4 +1,4 @@
-package id.holigo.services.common;
+package id.holigo.services.common.model;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmailDto {
+public class EmailDto implements Serializable {
 
     private String to;
 

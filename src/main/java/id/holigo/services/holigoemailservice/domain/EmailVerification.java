@@ -1,7 +1,7 @@
 package id.holigo.services.holigoemailservice.domain;
 
-import id.holigo.services.common.EmailStatusEnum;
-import id.holigo.services.common.EmailTypeEnum;
+import id.holigo.services.common.model.EmailStatusEnum;
+import id.holigo.services.common.model.EmailTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +29,8 @@ public class EmailVerification {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
+    private Long userId;
+
     private String email;
 
     private Timestamp expiredAt;
@@ -40,6 +42,8 @@ public class EmailVerification {
     private EmailStatusEnum status;
 
     private String indexNote;
+
+    private String verificationCode;
 
     @CreationTimestamp
     private Timestamp createdAt;

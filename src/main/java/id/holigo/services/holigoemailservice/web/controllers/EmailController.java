@@ -1,8 +1,7 @@
 package id.holigo.services.holigoemailservice.web.controllers;
 
 import id.holigo.services.holigoemailservice.config.KafkaTopicConfig;
-import id.holigo.services.holigoemailservice.services.EmailService;
-import id.holigo.services.common.EmailDto;
+import id.holigo.services.common.model.EmailDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,15 @@ public class EmailController {
 
     private KafkaTemplate<String, EmailDto> emailKafkaTemplate;
 
+    @Autowired
+    public void setEmailKafkaTemplate(KafkaTemplate<String, EmailDto> emailKafkaTemplate) {
+        this.emailKafkaTemplate = emailKafkaTemplate;
+    }
+
     @PostMapping("/api/v1/email")
     public ResponseEntity<HttpStatus> sendEmail(@RequestBody EmailDto emailDto) {
         log.info("Call sendEmail");
-        emailKafkaTemplate.send(KafkaTopicConfig.EMAIL_CONFIRMATION, emailDto);
+        emailKafkaTemplate.send(KafkaTopicConfig.EMAIL_VERIFICATION, emailDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

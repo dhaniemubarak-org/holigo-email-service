@@ -1,6 +1,7 @@
 package id.holigo.services.holigoemailservice.config;
 
-import id.holigo.services.common.EmailDto;
+import id.holigo.services.common.model.EmailDto;
+import id.holigo.services.common.model.UpdateUserEmailStatusDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,17 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, EmailDto> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    @Bean
+    public ProducerFactory<String, UpdateUserEmailStatusDto> updateUserProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String, UpdateUserEmailStatusDto> updateUserKafkaTemplate(
+            ProducerFactory<String, UpdateUserEmailStatusDto> updateUserProducerFactory) {
+        return new KafkaTemplate<>(updateUserProducerFactory);
     }
 
     @Bean

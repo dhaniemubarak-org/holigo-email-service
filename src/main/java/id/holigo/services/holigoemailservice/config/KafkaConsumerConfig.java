@@ -1,6 +1,6 @@
 package id.holigo.services.holigoemailservice.config;
 
-import id.holigo.services.common.EmailDto;
+import id.holigo.services.common.model.EmailDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,12 +21,6 @@ public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
-
-//    public Map<String, Object> consumerConfig() {
-//        Map<String, Object> props = new HashMap<>();
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-//        return props;
-//    }
 
     @Bean
     public ConsumerFactory<String, EmailDto> consumerFactory() {
