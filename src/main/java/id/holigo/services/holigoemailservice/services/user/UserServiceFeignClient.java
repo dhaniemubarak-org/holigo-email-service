@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "holigo-user-service", url = "localhost:9999")
+@FeignClient(name = "holigo-user-service")
 public interface UserServiceFeignClient {
 
     String USER_DETAIL = "/api/v1/completeUsers/{id}";

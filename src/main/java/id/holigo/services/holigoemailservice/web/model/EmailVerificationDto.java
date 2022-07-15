@@ -5,10 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -21,11 +26,13 @@ public class EmailVerificationDto implements Serializable {
 
     private String email;
 
+    public String imageUrl;
+
     private Timestamp expiredAt;
 
     private EmailStatusEnum status;
 
-    private String note;
+    private List<String> notes;
 
     private Timestamp createdAt;
 

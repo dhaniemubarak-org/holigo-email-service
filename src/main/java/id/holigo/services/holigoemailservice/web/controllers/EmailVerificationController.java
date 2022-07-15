@@ -13,7 +13,11 @@ import id.holigo.services.holigoemailservice.services.user.UserService;
 import id.holigo.services.holigoemailservice.web.mappers.EmailVerificationMapper;
 import id.holigo.services.holigoemailservice.web.model.EmailVerificationDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +25,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.http.HttpResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -36,6 +39,11 @@ public class EmailVerificationController {
 
     private static final String EMAIL_VERIFICATION_ADDRESS = "noreply@holigo.co.id";
 
+    private MessageSource messageSource;
+
+    @Value("${service.domain.url}")
+    private String domain;
+
     private EmailVerificationRepository emailVerificationRepository;
 
     private EmailVerificationMapper emailVerificationMapper;
@@ -48,6 +56,11 @@ public class EmailVerificationController {
     @Autowired
     public void setEmailVerificationRepository(EmailVerificationRepository emailVerificationRepository) {
         this.emailVerificationRepository = emailVerificationRepository;
+    }
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @Autowired
@@ -97,15 +110,15 @@ public class EmailVerificationController {
             emailVerification.setVerificationCode(user.getVerificationCode());
             emailVerification = emailVerificationRepository.save(emailVerification);
         }
+        Object[] args = new Object[]{user.getName(), domain, user.getVerificationCode()};
+        String content = messageSource.getMessage("email.content.verification", args, LocaleContextHolder.getLocale());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(UriComponentsBuilder.fromPath(PATH + "/{id}").buildAndExpand(emailVerification.getId()).toUri());
         EmailDto emailDto = EmailDto.builder()
                 .to(emailVerification.getEmail())
                 .from(EMAIL_VERIFICATION_ADDRESS)
-                .subject("Verification Email")
-                .content("Hi " + user.getName() + ", \n\n Click link bellow to verification your email address: \n\n " +
-                        "https://link.holigo.co.id/emailVerifications?verificationCode=" + user.getVerificationCode() +
-                        "\n\nCheers,\n\n\nHoligo")
+                .subject(messageSource.getMessage("email.subject.verification", null, LocaleContextHolder.getLocale()))
+                .content(StringEscapeUtils.unescapeJava(content))
                 .build();
         kafkaTemplate.send(KafkaTopicConfig.EMAIL_VERIFICATION, emailDto);
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
