@@ -108,6 +108,7 @@ public class EmailVerificationController {
             emailVerification.setType(EmailTypeEnum.VERIFICATION_EMAIL);
             emailVerification.setStatus(EmailStatusEnum.WAITING_CONFIRMATION);
             emailVerification.setVerificationCode(user.getVerificationCode());
+            emailVerification.setIndexNote("email_verification");
             emailVerification = emailVerificationRepository.save(emailVerification);
         }
         Object[] args = new Object[]{user.getName(), domain, user.getVerificationCode()};

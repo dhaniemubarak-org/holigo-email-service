@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Locale;
-// import lombok.RequiredArgsConstructor;
 
-// @RequiredArgsConstructor
 @Component("messageSource")
 public class DBMessageSource extends AbstractMessageSource {
 
