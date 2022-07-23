@@ -18,6 +18,7 @@ public class LocaleConfig extends AcceptHeaderLocaleResolver
             new Locale("id"),
             new Locale("en"));
 
+    //
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         String headerLang = request.getHeader("Accept-Language");
@@ -28,7 +29,6 @@ public class LocaleConfig extends AcceptHeaderLocaleResolver
 
     @Bean
     public AcceptHeaderLocaleResolver localeResolver() {
-        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
-        return resolver;
+        return new AcceptHeaderLocaleResolver();
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
+
 @Slf4j
 @Component
 public class KafkaListeners {
@@ -20,9 +22,10 @@ public class KafkaListeners {
     }
 
     @KafkaListener(topics = KafkaTopicConfig.EMAIL_VERIFICATION, groupId = "email", containerFactory = "emailListenerContainerFactory")
-    void listener(EmailDto data) {
+    void listener(EmailDto data) throws MessagingException {
         log.info("Email listener is running...");
         log.info("Email -> {}", data.toString());
         emailService.sendEmail(data);
+//        emailService.sendSimpleMail(data);
     }
 }

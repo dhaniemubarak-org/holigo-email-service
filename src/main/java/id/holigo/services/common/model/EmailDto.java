@@ -3,6 +3,7 @@ package id.holigo.services.common.model;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -17,5 +18,7 @@ public class EmailDto implements Serializable {
 
     private String subject;
 
-    private String content;
+    private String template;
+
+    private Map<String, Object> data;
 }
